@@ -1,0 +1,16 @@
+#clock-settings {
+  padding-top: 1em;
+  position: relative;
+}
+
+div.col-1 {
+  float: left;
+  clear: both;
+  transform: translate(0, -50%);
+  padding-right: 0.5em;
+}
+
+div.col-2 {
+  padding: 0.5em;
+  transform: translate(0, -50%);
+}

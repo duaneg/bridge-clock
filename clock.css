@@ -1,0 +1,22 @@
+div.clock-round {
+  font-size: 32px;
+  font-size: 10vw;
+  text-align: center;
+}
+
+div.clock-time {
+  font-size: 64px;
+  font-size: 25vw;
+  text-align: center;
+}
+
+div.paused {
+  color: grey;
+}
+
+body {
+  background: black;
+  width: 80vw;
+  height: 80vh;
+  color: white;
+}

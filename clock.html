@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <!-- Copyright Duane Griffin
+     * CSS
+     * Blurb at top
+     * Lint, validate, etc
+     * Review instructions
+     * Persist chosen defaults ("save" button?)
+     * Update input fields after "escape"
+  -->
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Duplicate Bridge Round Timer</title>
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/buzz/1.1.10/buzz.min.js"></script>
+    <script src="clock.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="main.css" title="main"/>
+    <link rel="stylesheet" type="text/css" href="clock.css" title="clock" disabled="true"/>
+    <script type="text/javascript">
+      var clock;
+      function resetForm() {
+        $("#intro input[name='round']").val("1");
+        $("#intro input[name='rounds']").val("");
+        $("#intro input[name='duration_mins']").val("13");
+        $("#intro input[name='duration_secs']").val("0");
+        $("#intro input[name='warning_mins']").val("0");
+        $("#intro input[name='warning_secs']").val("30");
+      }
+      function create() {
+        return create_clock({
+          round: $("#intro input[name='round']").val(),
+          rounds: $("#intro input[name='rounds']").val(),
+          duration_mins: $("#intro input[name='duration_mins']").val(),
+          duration_secs: $("#intro input[name='duration_secs']").val(),
+          warning_mins: $("#intro input[name='warning_mins']").val(),
+          warning_secs: $("#intro input[name='warning_secs']").val(),
+        });
+      }
+      window.onload = function() {
+        $("link[title='clock']").disabled = true;
+        resetForm();
+        $(document).keydown(function(evt) {
+
+          // If the user presses escape while in an input event clear the focus
+          // so they can then start the clock with space. Otherwise ignore key
+          // presses while the user is entering data.
+          var input = $(evt.target).closest("input")[0];
+          if (input) {
+            if (evt.key == "Escape") {
+              input.blur();
+            }
+            return;
+          }
+
+          if (evt.which == 32) {
+            if (clock === undefined) {
+              clock = create();
+              $("#clock").empty();
+              $("#clock").append(clock.dom);
+              $("#intro").css("display", "none");
+              $("link[title=main]")[0].disabled = false;
+              $("link[title=clock]")[0].disabled = false;
+              $(document).keydown(clock.keydownHandler);
+              clock.start();
+            }
+          } else if (evt.which == 82) {
+            resetForm();
+            evt.stopPropagation();
+          } else if (evt.which == 27) {
+            if (clock !== undefined) {
+              clock.stop();
+              $("#clock").empty();
+              $("#intro").css("display", "block");
+              $("link[title=main]")[0].disabled = false;
+              $("link[title=clock]")[0].disabled = true;
+              $(document).unbind("keydown", clock.keydownHandler);
+              clock = undefined;
+            }
+          }
+        });
+      };
+    </script>
+  </head>
+  <body>
+    <div id="intro" class="container">
+      <div class="jumbotron">
+        <h1>Duplicate Bridge Round Timer</h1>
+        <p>An HTML/JavaScript round timer for duplicate bridge clubs.</p>
+      </div>
+      <div class="page-header">
+        <h2>Timer Settings</h2>
+        <form id="clock-settings">
+          <div class="col-1">Round: </div><div class="col-2"><input type="text" name="round" size="2" maxlength="3"> of <input type="text" name="rounds" size="2" maxlength="3"></div>
+          <div class="col-1">Duration: </div><div class="col-2"><input type="text" name="duration_mins" size="2" maxlength="2"> : <input type="text" name="duration_secs" size="2" maxlength="2"></div>
+          <div class="col-1">Warning with: </div><div class="col-2"><input type="text" name="warning_mins" size="2" maxlength="2"> : <input type="text" name="warning_secs" size="2" maxlength="2"> remaining</div>
+        </form>
+      </div>
+      <div class="page-header">
+        <h2>Instructions</h2>
+        <p>Press "r" to reset the form values to their defaults. Press space to start the clock.</p>
+        <p>Once started press space to pause/restart the clock, "n" to skip to the next round, or escape to stop the clock and return to this page.</p>
+      </div>
+    </div>
+    <div id="clock"></div>
+  </body>
+</html>
