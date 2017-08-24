@@ -110,6 +110,8 @@ function create_clock(opts) {
       if (clock.time == 0) {
         clock.stop();
         clock.chime(3);
+        clock.reset();
+        clock.start();
       } else if (clock.time == clock.warning) {
         clock.chime(1);
       }
