@@ -6,7 +6,7 @@ This is a minimal, fully self-contained, pure HTML5/Javascript bridge clock inte
 
 # Showing the clock on a TV using chromecast
 
-## 1. Open the bridge clock page in Chrome.
+## 1. Open the [bridge clock page](https://duaneg.github.io/bridge-clock/) in Chrome.
 
 Note you must use Chrome and not another browser such as Microsoft Edge, Firefox, or Safari. You can probably find extensions for those browsers that support chromecast however that is outside the scope of these instructions.
 
