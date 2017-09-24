@@ -104,14 +104,15 @@ function create_clock(opts) {
       }
     },
 
-    tick: function() {
-      --clock.time;
+    tick: function(delta) {
+      if (typeof delta == 'undefined') {
+        delta = -1;
+      }
+      clock.time += delta;
       clock.updateTimeDisplay();
-      if (clock.time == 0) {
-        clock.stop();
+      if (clock.time <= 0) {
         clock.chime(3);
-        clock.reset();
-        clock.start();
+        clock.next();
       } else if (clock.time == clock.warning) {
         clock.chime(1);
       }
@@ -164,6 +165,10 @@ function create_clock(opts) {
         }
       } else if (evt.which == 78) {
         clock.next();
+      } else if (evt.which == 219) {
+        clock.tick(-60);
+      } else if (evt.which == 221) {
+        clock.tick(60);
       }
     },
   }
