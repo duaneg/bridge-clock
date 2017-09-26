@@ -92,7 +92,7 @@
 
       window.onload = function() {
         $("link[title='clock']").disabled = true;
-        $(document).bind(handle_key_press)
+        $(document).keydown(handle_key_press)
         reset_form();
       };
     </script>
